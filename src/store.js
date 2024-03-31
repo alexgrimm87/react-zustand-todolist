@@ -1,8 +1,8 @@
 import {create} from 'zustand';
-import {persist, createJSONStorage} from 'zustand/middleware';
+import {persist, createJSONStorage, devtools} from 'zustand/middleware';
 import {nanoid} from "nanoid";
 
-export const useTodos = create(persist((set, get) => ({
+export const useTodos = create(devtools(persist((set, get) => ({
   todos: [
     {id: 1, title: 'Title 1', completed: true},
     {id: 2, title: 'Title 2', completed: false}
@@ -35,7 +35,7 @@ export const useTodos = create(persist((set, get) => ({
     name: 'todos-storage',
     storage: createJSONStorage(() => localStorage)
   }
-));
+)));
 
 export const useFilter = create(set => ({
   filter: 'all',
