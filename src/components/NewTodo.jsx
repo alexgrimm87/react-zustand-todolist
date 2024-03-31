@@ -11,12 +11,15 @@ import {
   useDisclosure,
   Input,
 } from '@chakra-ui/react';
+import {useTodos} from "../store.js";
 
 const NewTodo = () => {
   const {isOpen, onOpen, onClose} = useDisclosure();
   const ref = useRef();
+  const addTodo = useTodos(state => state.addTodo);
 
   const handleAddTodo = () => {
+    addTodo(ref.current.value);
     onClose();
   };
 

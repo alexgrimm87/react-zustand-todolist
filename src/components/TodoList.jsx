@@ -1,19 +1,19 @@
 import {Checkbox, HStack, Stack, Text} from '@chakra-ui/react';
+import {useTodos} from "../store.js";
 
 const Todo = ({id, title, completed}) => {
+  const toggleTodo = useTodos(state => state.toggleTodo);
+
   return (
     <HStack spacing={4}>
-      <Checkbox isChecked={completed} />
+      <Checkbox isChecked={completed} onChange={() => toggleTodo(id)} />
       <Text>{title}</Text>
     </HStack>
   );
 };
 
 const TodoList = () => {
-  const todos = [
-    {id: 1, title: 'Title 1', completed: true},
-    {id: 2, title: 'Title 2', completed: false}
-  ];
+  const todos = useTodos(state => state.todos);
 
   return (
     <Stack minH="300px">
