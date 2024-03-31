@@ -10,7 +10,7 @@ export const useTodos = create(devtools(persist((set, get) => ({
   loading: false,
   error: null,
   // //Variant 1
-  // addTodo: (title) => set( state => {
+  // addTodo: (title) => set(state => {
   //   const newTodo = {id: nanoid(), title, completed: false};
   //   return {todos: [...state.todos, newTodo]};
   // }),
@@ -29,7 +29,20 @@ export const useTodos = create(devtools(persist((set, get) => ({
         ? {...todo, completed: !todo.completed}
         : todo
     )
-  })
+  }),
+  fetchTodos: async () => {
+    set({loading: true})
+    
+    try {
+      const res = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10');
+      if (!res.ok) throw new Error('Failed to fetch! Please try again.');
+      set({ todos: await res.json(), error: null });
+    } catch (error) {
+      set({error: error.message})
+    } finally {
+      set({loading: false})
+    }
+  }
 }),
   {
     name: 'todos-storage',
